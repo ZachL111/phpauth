@@ -1,0 +1,10 @@
+{
+  "name": "zachl111/phpauth",
+  "description": "Validate OAuth callback state, nonce, issuer, audience, and redirect policy fixtures.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Portfolio\\": "src/"
+    }
+  }
+}
