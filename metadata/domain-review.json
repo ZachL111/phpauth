@@ -1,0 +1,73 @@
+{
+  "repo": "phpauth",
+  "language": "PHP",
+  "category": "Security tooling",
+  "goal": "Validate OAuth callback state, nonce, issuer, audience, and redirect policy fixtures.",
+  "review_model": {
+    "terms": [
+      "trust boundary",
+      "claim drift",
+      "replay exposure",
+      "policy width"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "trust boundary",
+      "signal": 80,
+      "slack": 38,
+      "drag": 14,
+      "confidence": 74,
+      "score": 230,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "claim drift",
+      "signal": 48,
+      "slack": 29,
+      "drag": 17,
+      "confidence": 64,
+      "score": 138,
+      "lane": "watch"
+    },
+    {
+      "name": "edge",
+      "focus": "replay exposure",
+      "signal": 67,
+      "slack": 51,
+      "drag": 25,
+      "confidence": 87,
+      "score": 197,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "policy width",
+      "signal": 61,
+      "slack": 43,
+      "drag": 21,
+      "confidence": 55,
+      "score": 157,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "trust boundary",
+      "signal": 89,
+      "slack": 41,
+      "drag": 18,
+      "confidence": 72,
+      "score": 237,
+      "lane": "ship"
+    }
+  ]
+}

@@ -1,68 +1,40 @@
 # phpauth
 
-`phpauth` is a focused PHP codebase around validate OAuth callback state, nonce, issuer, audience, and redirect policy fixtures. It is meant to be easy to inspect, run, and extend without a hosted service.
+`phpauth` is a PHP project in security tooling. Its focus is to validate OAuth callback state, nonce, issuer, audience, and redirect policy fixtures.
 
-## Phpauth Walkthrough
+## Problem It Tries To Make Smaller
 
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the security tooling idea grounded in files that can be checked locally.
+This is intentionally local and self-contained so it can be inspected without credentials, services, or seeded history.
 
-## Reason For The Project
+## Phpauth Review Notes
 
-The repository exists to keep a technical idea small enough to reason about. The implementation avoids external dependencies where possible, then uses fixtures to make changes easy to review.
+`stale` and `stress` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Where Things Live
+## Working Pieces
 
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+- `fixtures/domain_review.csv` adds cases for trust boundary and claim drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/phpauth-walkthrough.md` walks through the case spread.
+- The PHP code includes a review path for `trust boundary` and `claim drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Capabilities
+## Design Notes
 
-- Includes extended examples for replay guards, including `recovery` and `degraded`.
-- Documents claim validation tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+The core code exposes a scoring path and the added review layer uses `signal`, `slack`, `drag`, and `confidence`. The domain terms are `trust boundary`, `claim drift`, `replay exposure`, and `policy width`.
 
-## How It Is Put Together
+The PHP code keeps the review rule close to the tests.
 
-The interesting part is the boundary between accepted and reviewed scenarios. Extended examples sit near that boundary so future edits can show whether the model became more permissive or more cautious. The PHP implementation uses strict types and a small namespaced policy class.
-
-## Getting It Running
-
-Clone the repository, enter the directory, and run the verifier. No database server, cloud account, or token is required.
-
-## Data Notes
-
-The extended cases are not random smoke tests. `degraded` keeps pressure on the review path, while `recovery` shows the model when capacity and weight are strong enough to clear the threshold.
-
-## Command Examples
+## Example Run
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
 
-## Check The Work
+The same command runs the local verification path. The highest-scoring domain case is `stale` at 237, which lands in `ship`. The most cautious case is `stress` at 138, which lands in `watch`.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Known Limits
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Possible Extensions
-
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Add one more security tooling fixture that focuses on a malformed or borderline input.
-
-## Tradeoffs
-
-This code is local-first. It makes no claim about deployed usage and avoids credentials, hosted state, and environment-specific setup.
+The repository is intentionally scoped to local checks. I would expand it by adding adversarial fixtures before adding features.
