@@ -61,3 +61,13 @@ php tests/test_policy.php
 php tests/test_domain_review.php
 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-phpauth-detail.ps1
+
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-phpauth-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-phpauth-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
